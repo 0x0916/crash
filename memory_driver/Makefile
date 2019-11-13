@@ -8,8 +8,15 @@
 # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 # GNU General Public License for more details.
 #
+ifneq ($(KERNELRELEASE), )
 obj-m := crash.o
+else
+KERNELDIR ?=/lib/modules/$(shell uname -r)/build
+PWD := $(shell pwd)
+
 all:
-	make -C /lib/modules/`uname -r`/build SUBDIRS=${PWD} modules
+	$(MAKE) -C $(KERNELDIR) M=$(PWD) modules
 clean:
-	rm -f *.mod.c *.ko *.o Module.*
+	$(MAKE) -C $(KERNELDIR) M=$(PWD) clean
+endif
+
