@@ -1407,6 +1407,11 @@ make_spec_file(struct supported_gdb_version *sp)
 	printf("cp extensions/dminfo.so %%{buildroot}%%{_libdir}/crash/extensions\n");
 	printf("cp extensions/snap.so %%{buildroot}%%{_libdir}/crash/extensions\n");
 	printf("cp extensions/trace.so %%{buildroot}%%{_libdir}/crash/extensions\n");
+	printf("cp extensions/echo.so %%{buildroot}%%{_libdir}/crash/extensions\n");
+	printf("cp extensions/lscgroup.so %%{buildroot}%%{_libdir}/crash/extensions\n");
+	printf("cp extensions/showcgroup.so %%{buildroot}%%{_libdir}/crash/extensions\n");
+	printf("cp extensions/pcc.so %%{buildroot}%%{_libdir}/crash/extensions\n");
+	printf("cp extensions/proccgroup.so %%{buildroot}%%{_libdir}/crash/extensions\n");
 	printf("\n");
 	printf("%%clean\n");
 	printf("rm -rf %%{buildroot}\n");
