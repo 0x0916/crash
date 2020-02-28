@@ -43,6 +43,7 @@ GDB_PATCH_FILES=
 # Default installation directory
 #
 INSTALLDIR=${DESTDIR}/usr/bin
+EXTENSIONS_INSTALLDIR=${DESTDIR}/usr/lib64/crash/extensions
 
 # LDFLAGS will be configured automatically by configure
 LDFLAGS=
@@ -308,6 +309,16 @@ make_build_data: force
 install:
 	/usr/bin/install -d ${INSTALLDIR}
 	/usr/bin/install ${PROGRAM} ${INSTALLDIR}
+	/usr/bin/install -d ${EXTENSIONS_INSTALLDIR}
+	/usr/bin/install extensions/dminfo.so ${EXTENSIONS_INSTALLDIR}
+	/usr/bin/install extensions/echo.so ${EXTENSIONS_INSTALLDIR}
+	/usr/bin/install extensions/eppic.so ${EXTENSIONS_INSTALLDIR}
+	/usr/bin/install extensions/lscgroup.so ${EXTENSIONS_INSTALLDIR}
+	/usr/bin/install extensions/pcc.so ${EXTENSIONS_INSTALLDIR}
+	/usr/bin/install extensions/proccgroup.so ${EXTENSIONS_INSTALLDIR}
+	/usr/bin/install extensions/showcgroup.so ${EXTENSIONS_INSTALLDIR}
+	/usr/bin/install extensions/snap.so ${EXTENSIONS_INSTALLDIR}
+	/usr/bin/install extensions/trace.so ${EXTENSIONS_INSTALLDIR}
 #	/usr/bin/install ${PROGRAM}d ${INSTALLDIR}
 
 unconfig: make_configure
