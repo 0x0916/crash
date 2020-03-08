@@ -33,7 +33,7 @@ proccgroup_init(void)
         error(FATAL, "Unrecognised or disabled cgroup support\n");
     }
 
-    if (!MEMBER_OFFSET("cgroup_subsys_state", "ss")) {
+    if (!MEMBER_EXISTS("cgroup_subsys_state", "ss")) {
         have_ss_member = false;
         error(WARNING, "pre-3.12 kernel detected, no support for getting subsys name\n");
     } else
