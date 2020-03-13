@@ -1852,6 +1852,7 @@ struct offset_table {                    /* stash of commonly-used offsets */
 	long request_list_count;
 	long request_queue_in_flight;
 	long request_queue_rq;
+	long request_queue_backing_dev_info;
 	long subsys_private_klist_devices;
 	long subsystem_kset;
 	long mount_mnt_parent;

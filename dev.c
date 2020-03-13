@@ -4435,8 +4435,10 @@ display_one_diskio(struct iter *i, unsigned long gendisk, ulong flags)
 	char buf3[BUFSIZE];
 	char buf4[BUFSIZE];
 	char buf5[BUFSIZE];
+	char buf6[BUFSIZE];
 	int major;
 	unsigned long queue_addr;
+	unsigned long bdi_addr;
 	unsigned int in_flight;
 	struct diskio io;
 
@@ -4452,11 +4454,13 @@ display_one_diskio(struct iter *i, unsigned long gendisk, ulong flags)
 		"gen_disk.major", FAULT_ON_ERROR);
 	i->get_diskio(queue_addr, gendisk, &io);
 
+	readmem(queue_addr + OFFSET(request_queue_backing_dev_info), KVADDR, &bdi_addr,
+		sizeof(ulong), "request_queue.backing_dev_info", FAULT_ON_ERROR);
 	if ((flags & DIOF_NONZERO)
 		&& (io.read + io.write == 0))
 		return;
 
-	fprintf(fp, "%s%s%s  %s%s%s%s  %s%5d%s%s%s%s%s",
+	fprintf(fp, "%s%s%s  %s%s%s%s  %s%s  %s%5d%s%s%s%s%s",
 		mkstring(buf0, 5, RJUST|INT_DEC, (char *)(unsigned long)major),
 		space(MINSPACE),
 		mkstring(buf1, VADDR_PRLEN, LJUST|LONG_HEX, (char *)gendisk),
@@ -4465,6 +4469,9 @@ display_one_diskio(struct iter *i, unsigned long gendisk, ulong flags)
 		space(MINSPACE),
 		mkstring(buf3, VADDR_PRLEN <= 11 ? 11 : VADDR_PRLEN,
 			 LJUST|LONG_HEX, (char *)queue_addr),
+		space(MINSPACE),
+		mkstring(buf6, VADDR_PRLEN <= 11 ? 11 : VADDR_PRLEN,
+			 LJUST|LONG_HEX, (char *)bdi_addr),
 		space(MINSPACE),
 		io.read + io.write,
 		space(MINSPACE),
@@ -4496,10 +4503,11 @@ display_all_diskio(ulong flags)
 	char buf3[BUFSIZE];
 	char buf4[BUFSIZE];
 	char buf5[BUFSIZE];
+	char buf6[BUFSIZE];
 
 	init_iter(&i);
 
-	fprintf(fp, "%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s\n",
+	fprintf(fp, "%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s\n",
 		"MAJOR",
 		space(MINSPACE),
 		mkstring(buf0, VADDR_PRLEN + 2, LJUST, "GENDISK"),
@@ -4508,6 +4516,9 @@ display_all_diskio(ulong flags)
 		space(MINSPACE),
 		mkstring(buf1, VADDR_PRLEN <= 11 ? 13 : VADDR_PRLEN + 2, LJUST,
 			"REQUEST_QUEUE"),
+		space(MINSPACE),
+		mkstring(buf6, VADDR_PRLEN <= 11 ? 13 : VADDR_PRLEN + 2, LJUST,
+			"BDI"),
 		space(MINSPACE),
 		mkstring(buf2, 5, RJUST, "TOTAL"),
 		space(MINSPACE),
@@ -4557,6 +4568,8 @@ void diskio_init(void)
 	MEMBER_OFFSET_INIT(request_list_count, "request_list", "count");
 	MEMBER_OFFSET_INIT(request_queue_in_flight, "request_queue",
 		"in_flight");
+	MEMBER_OFFSET_INIT(request_queue_backing_dev_info, "request_queue",
+		"backing_dev_info");
 	if (MEMBER_EXISTS("request_queue", "rq"))
 		MEMBER_OFFSET_INIT(request_queue_rq, "request_queue", "rq");
 	else
