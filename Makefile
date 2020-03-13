@@ -312,13 +312,16 @@ install:
 	/usr/bin/install -d ${EXTENSIONS_INSTALLDIR}
 	/usr/bin/install extensions/dminfo.so ${EXTENSIONS_INSTALLDIR}
 	/usr/bin/install extensions/echo.so ${EXTENSIONS_INSTALLDIR}
-	/usr/bin/install extensions/eppic.so ${EXTENSIONS_INSTALLDIR}
 	/usr/bin/install extensions/lscgroup.so ${EXTENSIONS_INSTALLDIR}
 	/usr/bin/install extensions/pcc.so ${EXTENSIONS_INSTALLDIR}
 	/usr/bin/install extensions/proccgroup.so ${EXTENSIONS_INSTALLDIR}
-	/usr/bin/install extensions/showcgroup.so ${EXTENSIONS_INSTALLDIR}
 	/usr/bin/install extensions/snap.so ${EXTENSIONS_INSTALLDIR}
 	/usr/bin/install extensions/trace.so ${EXTENSIONS_INSTALLDIR}
+	/usr/bin/install extensions/cacheutils.so ${EXTENSIONS_INSTALLDIR}
+	/usr/bin/install extensions/pstruct.so ${EXTENSIONS_INSTALLDIR}
+	/usr/bin/install extensions/fp.so ${EXTENSIONS_INSTALLDIR}
+	/usr/bin/install extensions/memutils.so ${EXTENSIONS_INSTALLDIR}
+	/usr/bin/install extensions/swap_usage.so ${EXTENSIONS_INSTALLDIR}
 #	/usr/bin/install ${PROGRAM}d ${INSTALLDIR}
 
 unconfig: make_configure
