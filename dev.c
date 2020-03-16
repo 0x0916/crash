@@ -4454,8 +4454,7 @@ display_one_diskio(struct iter *i, unsigned long gendisk, ulong flags)
 		"gen_disk.major", FAULT_ON_ERROR);
 	i->get_diskio(queue_addr, gendisk, &io);
 
-	readmem(queue_addr + OFFSET(request_queue_backing_dev_info), KVADDR, &bdi_addr,
-		sizeof(ulong), "request_queue.backing_dev_info", FAULT_ON_ERROR);
+	bdi_addr = queue_addr + OFFSET(request_queue_backing_dev_info);
 	if ((flags & DIOF_NONZERO)
 		&& (io.read + io.write == 0))
 		return;
