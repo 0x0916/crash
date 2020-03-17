@@ -1671,6 +1671,7 @@ struct offset_table {                    /* stash of commonly-used offsets */
 	long char_device_struct_fops;
 	long char_device_struct_major;
 	long gendisk_major;
+	long gendisk_minors;
 	long gendisk_disk_name;
 	long gendisk_fops;
 	long blk_major_name_next;

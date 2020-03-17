@@ -4436,7 +4436,9 @@ display_one_diskio(struct iter *i, unsigned long gendisk, ulong flags)
 	char buf4[BUFSIZE];
 	char buf5[BUFSIZE];
 	char buf6[BUFSIZE];
+	char buf7[BUFSIZE];
 	int major;
+	int minors;
 	unsigned long queue_addr;
 	unsigned long bdi_addr;
 	unsigned int in_flight;
@@ -4452,6 +4454,8 @@ display_one_diskio(struct iter *i, unsigned long gendisk, ulong flags)
 		sizeof(ulong), "gen_disk.queue", FAULT_ON_ERROR);
 	readmem(gendisk + OFFSET(gendisk_major), KVADDR, &major, sizeof(int),
 		"gen_disk.major", FAULT_ON_ERROR);
+	readmem(gendisk + OFFSET(gendisk_minors), KVADDR, &minors, sizeof(int),
+		"gen_disk.minors", FAULT_ON_ERROR);
 	i->get_diskio(queue_addr, gendisk, &io);
 
 	bdi_addr = queue_addr + OFFSET(request_queue_backing_dev_info);
@@ -4459,8 +4463,10 @@ display_one_diskio(struct iter *i, unsigned long gendisk, ulong flags)
 		&& (io.read + io.write == 0))
 		return;
 
-	fprintf(fp, "%s%s%s  %s%s%s%s  %s%s  %s%5d%s%s%s%s%s",
+	fprintf(fp, "%s%s%s%s%s  %s%s%s%s  %s%s  %s%5d%s%s%s%s%s",
 		mkstring(buf0, 5, RJUST|INT_DEC, (char *)(unsigned long)major),
+		space(MINSPACE),
+		mkstring(buf7, 5, RJUST|INT_DEC, (char *)(unsigned long)minors),
 		space(MINSPACE),
 		mkstring(buf1, VADDR_PRLEN, LJUST|LONG_HEX, (char *)gendisk),
 		space(MINSPACE),
@@ -4506,8 +4512,10 @@ display_all_diskio(ulong flags)
 
 	init_iter(&i);
 
-	fprintf(fp, "%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s\n",
+	fprintf(fp, "%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s\n",
 		"MAJOR",
+		space(MINSPACE),
+		"MINOR",
 		space(MINSPACE),
 		mkstring(buf0, VADDR_PRLEN + 2, LJUST, "GENDISK"),
 		space(MINSPACE),

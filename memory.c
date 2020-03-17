@@ -496,6 +496,7 @@ vm_init(void)
 		MEMBER_OFFSET_INIT(address_space_nrpages, "address_space", "__nrpages");
 
 	MEMBER_OFFSET_INIT(gendisk_major, "gendisk", "major");
+	MEMBER_OFFSET_INIT(gendisk_minors, "gendisk", "minors");
 	MEMBER_OFFSET_INIT(gendisk_fops, "gendisk", "fops");
 	MEMBER_OFFSET_INIT(gendisk_disk_name, "gendisk", "disk_name");
 
